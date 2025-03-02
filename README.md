@@ -41,7 +41,7 @@ npm install
 ### 3️⃣ Setup Environment Variables
 Create a `.env` file in the **root directory** and add:
 ```
-GEMINI_API_KEY=your_google_gemini_api_key
+GEMINI_API_KEY=AIzaSyCNAx9d1g-_cqdZ1W3_9D7vj1a_i_uQmck
 
 ```
 
