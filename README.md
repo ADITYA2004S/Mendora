@@ -3,6 +3,9 @@
 ## 🌟 Introduction
 Mendora is an AI-powered mental wellness assistant that helps users manage their mental health with journaling, coping strategies, and interactive AI conversations. Powered by **Google Gemini AI**, it provides smart and personalized mental health support.
 
+# 🔴 **LIVE VIEW OF THE WEBSITE**  
+🔗 [Click Here to Visit Mendora](https://mendora-onqf.onrender.com/)  
+
 
 ---
 
@@ -41,7 +44,7 @@ npm install
 ### 3️⃣ Setup Environment Variables
 Create a `.env` file in the **root directory** and add:
 ```
-GEMINI_API_KEY=AIzaSyCNAx9d1g-_cqdZ1W3_9D7vj1a_i_uQmck
+GEMINI_API_KEY=your_api_key
 
 ```
 
