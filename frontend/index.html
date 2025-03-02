@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mendora - Your Mental Health Companion</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/footer.css" />
+    <link rel="stylesheet" href="styles/cards.css" />
+    <link rel="stylesheet" href="styles/animations.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#4361ee',
+              secondary: '#3f37c9',
+              accent: '#4cc9f0',
+              light: '#f8f9fa',
+              dark: '#212529'
+            },
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <script src="scripts/script.js" defer></script>
+    <script src="scripts/auth.js" defer></script>
+    <script src="scripts/lazy-load.js" defer></script>
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- Modal for Login/Signup -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
+        <button id="close-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <div class="flex justify-center mb-6">
+          <img src="assets/logo.png" alt="Mendora Logo" class="h-12">
+        </div>
+        
+        <div class="tabs flex border-b">
+          <button id="login-tab" class="tab-active py-2 px-4 w-1/2 text-center border-b-2 border-primary"><a href="/login">Login</a></button>
+          <button id="signup-tab" class="py-2 px-4 w-1/2 text-center border-b-2 border-transparent">Sign Up</button>
+        </div>
+        
+        <div id="login-form" class="mt-6">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-secondary transition duration-300"><a href="/login">Login</a></button>
+          <p class="text-sm text-center mt-4 text-gray-600">Forgot password? <a href="#" class="text-primary">Reset it</a></p>
+        </div>
+        
+        <div id="signup-form" class="mt-6 hidden">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-secondary transition duration-300">Create Account</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-primary text-white p-4 flex justify-between items-center sticky top-0 z-40 shadow-md">
+      <div class="flex items-center">
+        
+        <h1 class="text-2xl font-bold">Mendora</h1>
+      </div>
+
+      <!-- NAVBAR CODE HERE -->
+      <ul class="hidden md:flex gap-6">
+        <li><a href="#disorders" class="hover:text-accent transition-colors">Disorders</a></li>
+        <li><a href="#about" class="hover:text-accent transition-colors">About</a></li>
+        <li><a href="#features" class="hover:text-accent transition-colors">Features</a></li>
+        <li><a href="#services" class="hover:text-accent transition-colors">Services</a></li>
+        <li><a href="#reviews" class="hover:text-accent transition-colors">Reviews</a></li>
+      </ul>
+      <!-- NAVBAR CODE ENDS HERE -->
+       
+      <div class="flex items-center gap-3">
+        <button id="auth-button" class="bg-white text-primary px-4 py-1.5 rounded-full font-bold hover:bg-gray-100 transition-colors">
+            <a href="/login">Login</a>
+          
+        </button>
+        <button class="md:hidden" id="mobile-menu-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-primary text-white p-4 hidden">
+      <ul class="flex flex-col gap-3">
+        <li><a href="#disorders" class="block py-2">Disorders</a></li>
+        <li><a href="#about" class="block py-2">About</a></li>
+        <li><a href="#features" class="block py-2">Features</a></li>
+        <li><a href="#services" class="block py-2">Services</a></li>
+        <li><a href="#reviews" class="block py-2">Reviews</a></li>
+      </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-r from-primary to-secondary text-white py-16 lazy-section">
+      <div class="absolute top-0 right-0 w-full h-full overflow-hidden z-0">
+        <div class="absolute top-10 right-10 w-64 h-64 bg-white bg-opacity-10 rounded-full filter blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-48 h-48 bg-accent bg-opacity-20 rounded-full filter blur-3xl"></div>
+      </div>
+      
+      <div class="container mx-auto px-6 flex flex-col md:flex-row items-center relative z-10">
+        <!-- Left Side -->
+        <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+          <h1 class="text-4xl md:text-5xl font-bold leading-tight">Your AI-Powered Mental Health Companion</h1>
+          <p class="mt-4 text-xl text-blue-100">
+            Empowering you with 24/7 emotional support and evidence-based guidance for a healthier mind.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <button id="get-started-button" class="bg-white text-primary px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+              <a href="/login">Get Started</a>
+            </button>
+            <button class="border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-primary transition-all transform hover:scale-105">
+              Learn More
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side: Floating Girl Image + Brain Icons -->
+        <div class="md:w-1/2 relative">
+          <div class="relative w-full max-w-md mx-auto">
+            <img
+              src="assets/girl_hero.png"
+              alt="Mental wellness illustration"
+              class="floating-image w-full mx-auto z-10 relative"
+              loading="lazy"
+            />
+            <!-- Floating Brain Icons -->
+            <div class="absolute top-0 left-0 w-20 h-20 floating-element-slow opacity-80">
+              <img src="assets/brain_hero.png" alt="Brain icon" loading="lazy" />
+            </div>
+            <div class="absolute top-40 right-0 w-16 h-16 floating-element-medium opacity-70">
+              <img src="assets/brain_hero.png" alt="Brain icon" loading="lazy" />
+            </div>
+            <div class="absolute bottom-10 left-10 w-24 h-24 floating-element-fast opacity-90">
+              <img src="assets/brain_hero.png" alt="Brain icon" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-0 transform rotate-180">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-12 md:h-16">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="#f8f9fa" opacity=".25"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="#f8f9fa" opacity=".5"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#f8f9fa"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Mental Health Disorders Section -->
+    <section id="disorders" class="py-16 bg-light lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Understanding Mental Health</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Recognizing and understanding different mental health conditions is the first step toward healing and support.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Anxiety Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-blue-400 to-blue-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">Anxiety Disorders</h3>
+            </div>
+            <p class="text-gray-700">Characterized by persistent, excessive worry and fear about everyday situations. Physical symptoms may include rapid heartbeat and sweating.</p>
+          </div>
+          
+          <!-- Depression Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">Depression</h3>
+            </div>
+            <p class="text-gray-700">A mood disorder causing persistent feelings of sadness, loss of interest, and impaired daily functioning.</p>
+          </div>
+          
+          <!-- PTSD Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-purple-400 to-purple-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">PTSD</h3>
+            </div>
+            <p class="text-gray-700">A condition triggered by experiencing or witnessing traumatic events, with symptoms including flashbacks, nightmares, and severe anxiety.</p>
+          </div>
+          
+          <!-- Bipolar Disorder Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-pink-400 to-pink-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">Bipolar Disorder</h3>
+            </div>
+            <p class="text-gray-700">A mental health condition causing unusual shifts in mood, energy, activity levels, and concentration.</p>
+          </div>
+          
+          <!-- OCD Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-teal-400 to-teal-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">OCD</h3>
+            </div>
+            <p class="text-gray-700">A disorder characterized by unreasonable thoughts and fears (obsessions) leading to repetitive behaviors (compulsions).</p>
+          </div>
+          
+          <!-- Eating Disorders Card -->
+          <div class="bg-white rounded-lg shadow-md p-6 h-auto">
+            <div class="bg-gradient-to-r from-orange-400 to-orange-500 rounded-lg p-4 mb-4 text-white">
+              <h3 class="text-2xl font-bold">Eating Disorders</h3>
+            </div>
+            <p class="text-gray-700">Serious conditions related to persistent eating behaviors that negatively impact health, emotions, and ability to function.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Mendora Section -->
+    <section id="about" class="py-16 bg-gray-50 lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-10 md:mb-0">
+            <img src="assets/mendora.png" alt="About Mendora" class="w-full max-w-md mx-auto rounded-lg shadow-lg" loading="lazy">
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 font-display">Why <span class="text-primary">Mendora</span>?</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Mendora is more than just a mental health app—it's your personal companion on the journey to emotional wellbeing. We combine cutting-edge AI technology with evidence-based therapeutic approaches to provide support that's accessible, personalized, and effective.
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Our platform was designed by mental health professionals with a simple mission: to make quality mental health support available to everyone, anytime, anywhere. Whether you're experiencing everyday stress or managing a diagnosed condition, Mendora adapts to your unique needs.
+            </p>
+            <div class="grid grid-cols-2 gap-4 mt-8">
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="text-primary text-xl font-bold mb-2">24/7</div>
+                <div class="text-gray-700">Always available support</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="text-primary text-xl font-bold mb-2">100%</div>
+                <div class="text-gray-700">Private & confidential</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="text-primary text-xl font-bold mb-2">AI-Powered</div>
+                <div class="text-gray-700">Personalized guidance</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="text-primary text-xl font-bold mb-2">Evidence-Based</div>
+                <div class="text-gray-700">Professional techniques</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gradient-to-r from-primary to-secondary text-white lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Innovative Features</h2>
+          <p class="max-w-2xl mx-auto">Discover the tools and technologies that make Mendora your ideal mental health companion.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Emotion Recognition</h3>
+            <p>Advanced natural language processing identifies emotional patterns in your conversations to provide personalized support.</p>
+          </div>
+          
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Personalized Interventions</h3>
+            <p>Receive custom coping strategies and exercises based on your specific needs, challenges, and progress.</p>
+          </div>
+          
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Privacy-First Design</h3>
+            <p>End-to-end encryption and anonymized data ensure your personal information and conversations remain completely confidential.</p>
+          </div>
+          
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Progress Tracking</h3>
+            <p>Visualize your emotional journey with detailed insights and analytics that help you understand patterns and improvements.</p>
+          </div>
+          
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Knowledge Resources</h3>
+            <p>Access a comprehensive library of evidence-based articles, videos, and exercises to deepen your understanding of mental health.</p>
+          </div>
+          
+          <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300">
+            <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Professional Integration</h3>
+            <p>Seamlessly connect with licensed therapists and counselors when you need additional human support beyond AI assistance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-light lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Comprehensive mental health support tailored to your individual needs.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/ai_assistant.png" alt="AI Therapy Sessions" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">AI Therapy Assistant</h3>
+              <p class="text-gray-600 mb-4">Engage in guided conversations with our AI therapist based on evidence-based approaches like CBT, DBT, and mindfulness.</p>
+              <a class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/mood_tracking.png" alt="Mood Tracking" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Mood Tracking & Analysis</h3>
+              <p class="text-gray-600 mb-4">Track your emotional states over time and receive personalized insights and recommendations based on your patterns.</p>
+              <a  class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/brain_exercise.png" alt="Guided Exercises" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Guided Exercises</h3>
+              <p class="text-gray-600 mb-4">Access a variety of guided meditations, breathing exercises, and relaxation techniques to manage stress and anxiety.</p>
+              <a  class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/journaling.png" alt="Journaling" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">AI-Enhanced Journaling</h3>
+              <p class="text-gray-600 mb-4">Document your thoughts and feelings with intelligent prompts and receive insights to better understand your emotional patterns.</p>
+              <a  class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/crisis_support.png" alt="Crisis Support" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Crisis Support</h3>
+              <p class="text-gray-600 mb-4">Immediate resources and support during difficult moments, with seamless connection to crisis hotlines when needed.</p>
+              <a  class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="service-card">
+            <div class="h-64 overflow-hidden rounded-t-xl">
+              <img src="assets/community.png" alt="Community Support" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+            </div>
+            <div class="p-6 bg-white rounded-b-xl shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Community Support</h3>
+              <p class="text-gray-600 mb-4">Connect with a moderated community of supportive individuals sharing similar experiences in a safe, anonymous environment.</p>
+              <a  class="text-primary font-medium flex items-center">
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-16 bg-gray-100 lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">User Stories</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">See how Mendora has made a difference in people's lives.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Review 1 -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">S</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-gray-800">Sarah K.</h4>
+                <div class="flex text-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 italic mb-4">"As someone with anxiety, having Mendora available 24/7 has been life-changing. The guided breathing exercises have helped me through several panic attacks, and the daily check-ins keep me accountable to my mental health goals."</p>
+            <div class="text-sm text-gray-500">Using Mendora for 6 months</div>
+          </div>
+          
+          <!-- Review 2 -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-xl">M</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-gray-800">Michael T.</h4>
+                <div class="flex text-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 italic mb-4">"I was skeptical about an AI mental health app, but Mendora has exceeded my expectations. The CBT techniques it's taught me have helped me manage my depression in between therapy sessions. My therapist even noticed the improvement!"</p>
+            <div class="text-sm text-gray-500">Using Mendora for 3 months</div>
+          </div>
+          
+          <!-- Review 3 -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xl">J</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-gray-800">Jamie L.</h4>
+                <div class="flex text-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 italic mb-4">"The AI-enhanced journaling has been my favorite feature. It asks me thought-provoking questions that help me reflect in ways I wouldn't on my own. I've learned so much about my thought patterns and triggers."</p>
+            <div class="text-sm text-gray-500">Using Mendora for 8 months</div>
+          </div>
+          
+          <!-- Review 4 -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">D</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-gray-800">David R.</h4>
+                <div class="flex text-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 italic mb-4">"What impressed me most was how seamlessly Mendora connected me with a therapist when I needed more support. The AI recognized my crisis signals and facilitated immediate professional help."</p>
+            <div class="text-sm text-gray-500">Using Mendora for 4 months</div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-10">
+          <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors duration-300">
+            Read more stories
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Simple, Transparent Pricing</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Choose the plan that works best for your mental health journey.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Basic Plan -->
+          <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:transform hover:scale-105">
+            <div class="p-6 bg-gray-50">
+              <h3 class="text-2xl font-bold text-gray-800 mb-2">Basic</h3>
+              <div class="flex items-end">
+                <span class="text-4xl font-bold text-gray-800">Free</span>
+                <span class="text-gray-500 ml-2"></span>
+              </div>
+              <p class="text-gray-600 mt-2">Get started with essential mental wellness tools.</p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Basic AI conversations</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Simple mood tracking</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">3 guided meditations</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Community access (read-only)</span>
+                </li>
+              </ul>
+              <div class="mt-6">
+                <a href="/login" class="block w-full px-4 py-3 text-center font-medium rounded-md bg-gray-100 text-primary hover:bg-gray-200 transition duration-300">Get Started</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Premium Plan -->
+          <div class="bg-white rounded-xl shadow-xl overflow-hidden transform scale-105 z-10 border-2 border-primary">
+            <div class="p-6 bg-primary">
+              <div class="inline-block px-3 py-1 text-xs font-semibold text-primary bg-white rounded-full mb-2">POPULAR</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Premium</h3>
+              <div class="flex items-end">
+                <span class="text-4xl font-bold text-white">₹9.99</span>
+                <span class="text-white opacity-80 ml-2">/month</span>
+              </div>
+              <p class="text-white opacity-90 mt-2">Complete access to all wellness features.</p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Unlimited AI therapy conversations</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Advanced mood tracking & analytics</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Full library of 50+ guided exercises</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Full community access & participation</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Priority crisis support</span>
+                </li>
+              </ul>
+              <div class="mt-6">
+                <a href="/login" class="block w-full px-4 py-3 text-center font-medium rounded-md bg-primary text-white hover:bg-primary-dark transition duration-300">Start 7-Day Free Trial</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Professional Plan -->
+          <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:transform hover:scale-105">
+            <div class="p-6 bg-gray-50">
+              <h3 class="text-2xl font-bold text-gray-800 mb-2">Professional</h3>
+              <div class="flex items-end">
+                <span class="text-4xl font-bold text-gray-800">₹19.99</span>
+                <span class="text-gray-500 ml-2">/month</span>
+              </div>
+              <p class="text-gray-600 mt-2">Premium features plus professional therapy.</p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">All Premium features</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">2 video sessions with a therapist/month</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Personalized therapy plan</span>
+                </li>
+                <li class="flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-gray-600">Unlimited messaging with your therapist</span>
+                </li>
+              </ul>
+              <div class="mt-6">
+                <a href="/login" class="block w-full px-4 py-3 text-center font-medium rounded-md bg-gray-100 text-primary hover:bg-gray-200 transition duration-300">Start 7-Day Free Trial</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-xl p-6 mt-12 text-center">
+          <p class="text-gray-600 mb-4">All plans include a 100% satisfaction guarantee. If you're not completely satisfied with Mendora, simply cancel within 30 days for a full refund.</p>
+          <a href="#" class="text-primary font-medium">View our refund policy</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-gray-100 lazy-section">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Find answers to the most common questions about Mendora.</p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto space-y-6">
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-3">Is Mendora a replacement for traditional therapy?</h3>
+            <p class="text-gray-600">Mendora is designed to complement traditional therapy, not replace it. While our AI can provide evidence-based support and techniques, we recommend working with a licensed professional for serious mental health concerns. Our Professional plan integrates human therapy with our AI tools for comprehensive care.</p>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-3">How secure and private is my data?</h3>
+            <p class="text-gray-600">Your privacy is our top priority. All data is encrypted end-to-end, and we never share or sell your personal information. You can delete your data at any time, and our systems comply with HIPAA and GDPR requirements. For more details, please review our privacy policy.</p>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-3">Can I use Mendora in a crisis situation?</h3>
+            <p class="text-gray-600">While Mendora offers crisis resources, it's not designed as an emergency service. If you're experiencing a mental health emergency, please contact a crisis hotline or emergency services immediately. Mendora can help direct you to appropriate crisis resources but should not be relied upon in life-threatening situations.</p>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-3">How does the AI therapy assistant work?</h3>
+            <p class="text-gray-600">Our AI therapy assistant uses advanced natural language processing to engage in meaningful conversations about your mental health. It's trained on evidence-based therapeutic approaches like CBT, DBT, and ACT. The AI adapts to your needs over time, but always within clinically validated frameworks. It can suggest exercises, provide psychoeducation, and help you track progress.</p>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-3">Can I cancel my subscription at any time?</h3>
+            <p class="text-gray-600">Yes, you can cancel your subscription at any time with no questions asked. After cancellation, you'll continue to have access to your plan until the end of your current billing period. We also offer a 30-day money-back guarantee for new subscribers.</p>
+          </div>
+        </div>
+        
+        <div class="text-center mt-10">
+          <p class="text-gray-600 mb-4">Still have questions? We're here to help.</p>
+          <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors duration-300">
+            Contact Support
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-r from-primary to-secondary text-white lazy-section">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Start Your Mental Wellness Journey Today</h2>
+        <p class="max-w-2xl mx-auto mb-8 opacity-90">Join thousands of people who are taking control of their mental health with Mendora's innovative approach.</p>
+        <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+          <a href="/login" class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-primary transition-colors duration-300">
+            Try Free for 7 Days
+          </a>
+          <a  class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-gray-100 transition-colors duration-300">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+          
+            <p class="text-gray-400 mb-4">Your AI companion for mental wellness and emotional support.</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                </svg>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.09-.193-7.715-2.157-10.141-5.126-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 14-7.503 14-14v-.617c.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/>
+                </svg>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
