@@ -1,0 +1,88 @@
+footer {
+  background-color: #a8e3e2; /* Main Theme Color */
+  color: #004d4c; /* Dark Teal for contrast */
+  padding: 40px 0;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+}
+
+.footer-section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 2px solid #007e7d; /* Darker shade for elegance */
+  padding-bottom: 5px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 8px 0;
+}
+
+.footer-section ul li a {
+  color: #005f5e; /* Medium Teal for text */
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #002f2e; /* Even darker teal on hover */
+}
+
+.newsletter input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #007e7d;
+  border-radius: 5px;
+  background-color: white;
+  color: #004d4c;
+}
+
+.newsletter button {
+  width: 100%;
+  background-color: #007e7d; /* Slightly darker than the main theme */
+  color: white;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.newsletter button:hover {
+  background-color: #005f5e; /* Darker hover effect */
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #004d4c;
+  padding-top: 10px;
+  border-top: 1px solid #007e7d;
+}
+
+.footer-bottom a {
+  color: #005f5e;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: #002f2e;
+}

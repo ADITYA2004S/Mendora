@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mendora - Mental Wellness Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/coping.css" />
+  </head>
+  <body>
+    <div class="coping-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <div class="logo-text"><a href="/user">Mendora</a></div>
+        </div>
+        <div class="page-indicator" id="current-page-indicator">
+          Coping Strategies
+        </div>
+      </header>
+
+      <!-- Mobile menu toggle -->
+      <button class="menu-toggle" id="mobile-toggle">☰</button>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-toggle" id="sidebar-toggle">
+          <span id="toggle-icon">◀</span>
+        </div>
+        <h3 class="section-title">My Strategies</h3>
+        <ul class="strategy-menu">
+          <li class="strategy-item">
+            <button class="strategy-btn active" data-page="coping">
+              <i>🧘</i> <span>My Therapy</span>
+            </button>
+          </li>
+        </ul>
+
+        <h3 class="section-title">Menu</h3>
+        <ul class="strategy-menu">
+          <li class="strategy-item">
+            <button class="strategy-btn" data-page="journal">
+              <i>📔</i> <span>Journal</span>
+            </button>
+          </li>
+          <li class="strategy-item">
+            <button class="strategy-btn" data-page="expert-heal">
+              <i>👨‍⚕️</i> <span>Expert Heal</span>
+            </button>
+          </li>
+          <li class="strategy-item">
+            <button class="strategy-btn" data-page="analytics">
+              <i>📈</i> <span>Analytics</span>
+            </button>
+          </li>
+          <li class="strategy-item">
+            <button class="strategy-btn" data-page="settings">
+              <i>⚙️</i> <span>Settings</span>
+            </button>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content - Coping Strategies (Default Page) -->
+      <main class="main-content" id="main-content">
+        <div id="coping-page" class="page-content active">
+          <h1 class="page-title">Customize Coping Strategy</h1>
+          <p class="page-subtitle">
+            Personalize this strategy to work best for your needs
+          </p>
+
+          <form class="customize-form">
+            <div class="form-group">
+              <label class="form-label" for="strategy-name"
+                >Strategy Name</label
+              >
+              <input
+                type="text"
+                id="strategy-name"
+                class="form-input"
+                value="Deep Breathing"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="strategy-description"
+                >Description</label
+              >
+              <textarea id="strategy-description" class="form-textarea">
+A simple breathing technique to help calm your mind and reduce stress. Focus on taking slow, deep breaths through your nose, holding briefly, then exhaling slowly through your mouth.</textarea
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="strategy-category">Category</label>
+              <select id="strategy-category" class="form-select">
+                <option value="relaxation">Relaxation</option>
+                <option value="physical">Physical Activity</option>
+                <option value="creative">Creative Expression</option>
+                <option value="social">Social Connection</option>
+                <option value="cognitive">Cognitive Techniques</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="icon-select">Icon</label>
+              <select id="icon-select" class="form-select">
+                <option value="breathing">🧘 Meditation</option>
+                <option value="music">🎵 Music</option>
+                <option value="walking">🚶 Walking</option>
+                <option value="journal">📝 Journal</option>
+                <option value="mindful">🧠 Mindfulness</option>
+                <option value="exercise">🏋️ Exercise</option>
+                <option value="social">👥 Social</option>
+                <option value="nature">🌱 Nature</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">When to Use</label>
+              <div class="trigger-section">
+                <div class="section-header">
+                  <h3 class="section-title" style="margin-top: 0">Triggers</h3>
+                  <button type="button" class="add-trigger-btn">
+                    <span>Add Trigger</span>
+                  </button>
+                </div>
+
+                <div class="trigger-list">
+                  <div class="trigger-item">
+                    <div class="trigger-text">
+                      When feeling anxious or overwhelmed
+                    </div>
+                    <div class="trigger-actions">
+                      <button type="button" class="action-btn">✏️</button>
+                      <button type="button" class="action-btn">🗑️</button>
+                    </div>
+                  </div>
+
+                  <div class="trigger-item">
+                    <div class="trigger-text">
+                      Before stressful meetings or conversations
+                    </div>
+                    <div class="trigger-actions">
+                      <button type="button" class="action-btn">✏️</button>
+                      <button type="button" class="action-btn">🗑️</button>
+                    </div>
+                  </div>
+
+                  <div class="trigger-item">
+                    <div class="trigger-text">
+                      When having trouble falling asleep
+                    </div>
+                    <div class="trigger-actions">
+                      <button type="button" class="action-btn">✏️</button>
+                      <button type="button" class="action-btn">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="effectiveness"
+                >Effectiveness Rating</label
+              >
+              <select id="effectiveness" class="form-select">
+                <option value="5">Extremely Effective</option>
+                <option value="4" selected>Very Effective</option>
+                <option value="3">Moderately Effective</option>
+                <option value="2">Slightly Effective</option>
+                <option value="1">Not Effective</option>
+              </select>
+              <span class="form-help"
+                >How well has this strategy worked for you in the past?</span
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="notes">Personal Notes</label>
+              <textarea
+                id="notes"
+                class="form-textarea"
+                placeholder="Add any personal notes or reminders about this strategy..."
+              >
+I find this works best when I count to 4 on the inhale, hold for 2, and exhale for 6. Repeat for at least 2 minutes for best results.</textarea
+              >
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="cancel-btn">Cancel</button>
+              <button type="submit" class="save-btn">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Journal Page -->
+        <div id="journal-page" class="page-content" style="display: none">
+          <h1 class="page-title">Journal</h1>
+          <p class="page-subtitle">
+            Write down your thoughts, feelings, and experiences
+          </p>
+
+          <div class="journal-container">
+            <div class="journal-date">
+              Today, <span id="current-date"></span>
+            </div>
+            <textarea
+              class="journal-textarea"
+              id="journal-text"
+              placeholder="How are you feeling today? Write it all down here..."
+            ></textarea>
+            <div class="form-buttons">
+              <button type="button" class="cancel-btn" id="vanish-btn">
+                Vanish
+              </button>
+              <button type="button" class="save-btn" id="save-journal">
+                Save Entry
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expert Heal Page -->
+        <div id="expert-heal-page" class="page-content" style="display: none">
+          <h1 class="page-title">Expert Heal</h1>
+          <p class="page-subtitle">Our avengers are there to help</p>
+
+          <div class="experts-grid">
+            <div class="expert-card">
+              <img
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                alt="Dr. Sarah Johnson"
+                class="expert-img"
+              />
+              <div class="expert-info">
+                <h3 class="expert-name">Dr. Sarah Johnson</h3>
+                <div class="expert-title">Clinical Psychologist</div>
+                <p class="expert-desc">
+                  Specializes in anxiety disorders and stress management with
+                  15+ years of experience helping people develop effective
+                  coping strategies.
+                </p>
+                <button class="book-btn" data-expert="Dr. Sarah Johnson">
+                  Get a Call
+                </button>
+              </div>
+            </div>
+
+            <div class="expert-card">
+              <img
+                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                alt="Dr. Michael Chen"
+                class="expert-img"
+              />
+              <div class="expert-info">
+                <h3 class="expert-name">Dr. Michael Chen</h3>
+                <div class="expert-title">Psychiatrist</div>
+                <p class="expert-desc">
+                  Expert in mood disorders and holistic approaches to mental
+                  wellness. Combines medical expertise with mindfulness
+                  techniques.
+                </p>
+                <button class="book-btn" data-expert="Dr. Michael Chen">
+                  Get a Call
+                </button>
+              </div>
+            </div>
+
+            <div class="expert-card">
+              <img
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                alt="Emma Rodriguez"
+                class="expert-img"
+              />
+              <div class="expert-info">
+                <h3 class="expert-name">Emma Rodriguez</h3>
+                <div class="expert-title">Therapist & Mindfulness Coach</div>
+                <p class="expert-desc">
+                  Specializes in CBT and mindfulness-based interventions. Helps
+                  clients build resilience and develop practical coping tools.
+                </p>
+                <button class="book-btn" data-expert="Emma Rodriguez">
+                  Get a Call
+                </button>
+              </div>
+            </div>
+
+            <div class="expert-card">
+              <img
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+                alt="Dr. James Wilson"
+                class="expert-img"
+              />
+              <div class="expert-info">
+                <h3 class="expert-name">Dr. James Wilson</h3>
+                <div class="expert-title">Psychological Counselor</div>
+                <p class="expert-desc">
+                  Focuses on relationship issues and life transitions. Creates
+                  personalized plans to help navigate challenging emotional
+                  situations.
+                </p>
+                <button class="book-btn" data-expert="Dr. James Wilson">
+                  Get a Call
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Page - Coming Soon -->
+        <div id="analytics-page" class="page-content" style="display: none">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">📊</div>
+            <h2>Analytics Coming Soon</h2>
+            <p>
+              We're currently building powerful tools to help you track your
+              progress and gain insights into your mental wellness journey.
+              Check back soon!
+            </p>
+          </div>
+        </div>
+
+        <!-- Settings Page - Coming Soon -->
+        <div id="settings-page" class="page-content" style="display: none">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">⚙️</div>
+            <h2>Settings Coming Soon</h2>
+            <p>
+              We're working on customization options to make Mendora perfect for
+              your needs. Please check back soon for updates!
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal for booking confirmation -->
+    <div id="booking-modal" class="modal">
+      <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <h2 class="modal-title">Booking Confirmation</h2>
+        <div class="success-message">
+          <div class="success-icon">✓</div>
+          <p>
+            Your call with <span id="expert-name"></span> has been scheduled.
+            You'll receive a confirmation email shortly.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./scripts/coping.js"></script>
+  </body>
+</html>
