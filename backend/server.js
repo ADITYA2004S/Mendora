@@ -35,6 +35,9 @@ app.get("/user-page.html", (req, res) => {
 app.get("/user", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/user.html"));
 });
+app.get("/resources", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/resources.html"));
+});
 app.get("/resource", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/resources.html"));
 });
