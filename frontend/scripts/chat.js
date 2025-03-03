@@ -45,7 +45,7 @@ async function sendMessage() {
     typingIndicator.style.display = "none";
     appendMessage(
       "Mendora",
-      "Sorry, I couldn't connect to the server.",
+      "Sorry, gemini server is busy please try back later.",
       "ai-message"
     );
     console.error("Chatbot Error:", error);
