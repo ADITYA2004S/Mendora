@@ -10,11 +10,6 @@ const app = express();
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(cors());
 app.use(express.json());
-app.use(cors({
-  origin: '*',  
-  methods: ['GET', 'POST'],
-  credentials: true
-}));
 
 // Google Gemini API Configuration
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
